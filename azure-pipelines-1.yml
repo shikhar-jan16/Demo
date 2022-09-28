@@ -1,0 +1,24 @@
+trigger:
+- master
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '1.0x'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'https://demodeploy.file.core.windows.net/deploy'
+    artifact: 'DemoDeploy'
+    publishLocation: 'pipeline'
